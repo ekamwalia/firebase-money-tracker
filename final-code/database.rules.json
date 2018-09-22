@@ -1,0 +1,18 @@
+{
+  "rules": {
+    "Finances": {
+      ".read": true,
+      // Users can only write messages if they are authenticated.
+      ".write": "auth !== null"
+      
+    },
+    "transactions" : {
+      ".read": true,
+      ".write": true
+    },
+    "wallet" : {
+      ".read": true,
+      ".write":true
+    }
+  }
+}

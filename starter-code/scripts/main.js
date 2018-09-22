@@ -9,29 +9,18 @@
  *  
  */
 function signIn() {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider);
 }
 
 function signOut() {
-    firebase.auth().signOut();
 }
 
 function getUserName() {
-    return firebase.auth().currentUser.displayName;
 }
 
 function getUserUID() {
-    return firebase.auth().currentUser.uid;
 }
 
 function isUserSignedIn() {
-    return !!firebase.auth().currentUser;
-}
-
-function initFirebaseAuth() {
-    // Listen to auth state changes.
-    firebase.auth().onAuthStateChanged(authStateObserver);
 }
 
 /* Realtime Database Management
@@ -44,65 +33,25 @@ function initFirebaseAuth() {
 
 // Loads and updates the Balace and Transactions 
 function loadTransactions() {
-    
-    // Call the Display Message utility function
-    var dislayTransactionCallback = function(snap) {
-         var data = snap.val();
-        displayTransaction(data.type, data.amount);
-    };
-
-    // Call the Display Balance utility function
-    var displayBalanceCallback = function(snap) {
-        var data = snap.val();
-        displayBalance(data);
-    };
-
-    // Watch the Transactions root for changes 
-    var transactionsRef = firebase.database().ref("/transactions/").orderByChild("user").equalTo(getUserUID()).limitToLast(10);
-    transactionsRef.on('child_added', dislayTransactionCallback);
-    transactionsRef.on('child_changed', dislayTransactionCallback);
-
-    // Watch the Walet root for changes
-    var walletRef = firebase.database().ref("/wallet/" + getUserUID());
-    walletRef.on('child_added', displayBalanceCallback);
-    walletRef.on('child_changed', displayBalanceCallback);
-
 }
 
 // Inserts a new Transaction in Firebase DB
-function recordNewTransaction(amount, type) {
-    return firebase.database().ref('/transactions/').push({
-      user: getUserUID(),
-      amount: parseInt(amount),
-      type: type,
-    }).catch(function(error) {
-      console.error('Error writing new message to Firebase Database', error);
-    });
+function recordNewTransaction() {
 }
 
 // Updates the users 
-function updateWalletbalance(amount, type) {
-    // get the current balance and parse it into an Integer
-    var newBalance = parseInt(balanceDisplayElement.textContent);
-
-    // Add or Subtract the amount from current balance 
-    // depending on transaction type
-    if (type == "credit") {
-        newBalance = newBalance + parseInt(amount);
-    } else {
-        newBalance = newBalance - parseInt(amount);
-    }
-    
-    // Update the value in Firebase DB
-    return firebase.database().ref('/wallet/' + getUserUID()).set({
-        balance : newBalance
-    });
+function updateWalletbalance() {
 }
 
 /* Utility Functions
  * All the functions below are utiliy functions 
  * which manipulate UI changes. Need not be modified
  */
+
+function initFirebaseAuth() {
+    // Listen to auth state changes.
+    firebase.auth().onAuthStateChanged(authStateObserver);
+}
 
 function authStateObserver(user) {
     if (user) { // User is signed in!

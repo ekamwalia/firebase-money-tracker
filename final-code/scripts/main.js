@@ -135,6 +135,8 @@ function authStateObserver(user) {
     // Hide user's profile and sign-out button.
     displayNameDivElement.setAttribute('hidden', 'true');
     signOutButtonElement.setAttribute('hidden', 'true');
+    messageListElement.innerHTML = '';
+    balanceDisplayElement.innerHTML = '0.00';
 
     // Show sign-in button.
     signInButtonElement.removeAttribute('hidden');

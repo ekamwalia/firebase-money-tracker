@@ -23,6 +23,9 @@ function getUserUID() {
 function isUserSignedIn() {
 }
 
+function initFirebaseAuth() {
+}
+
 /* Realtime Database Management
  * The following functions modify and create entries 
  * in the Firebase DB.
@@ -31,16 +34,16 @@ function isUserSignedIn() {
  * Udpate Wallet Balance
  */
 
-// Loads and updates the Balace and Transactions 
+// Loads and updates the Balace and Transactions
 function loadTransactions() {
 }
 
 // Inserts a new Transaction in Firebase DB
-function recordNewTransaction() {
+function recordNewTransaction(amount, type) {
 }
 
-// Updates the users 
-function updateWalletbalance() {
+// Updates the users
+function updateWalletbalance(amount, type) {
 }
 
 /* Utility Functions
@@ -48,80 +51,83 @@ function updateWalletbalance() {
  * which manipulate UI changes. Need not be modified
  */
 
-function initFirebaseAuth() {
-    // Listen to auth state changes.
-    firebase.auth().onAuthStateChanged(authStateObserver);
-}
-
 function authStateObserver(user) {
-    if (user) { // User is signed in!
-      // Get the signed-in user's name.
-      var userName = getUserName();
-  
-      // Set name.
-      displayNameDivElement.textContent = userName;
-  
-      // Show user's profile and sign-out button.
-      displayNameDivElement.removeAttribute('hidden');
-      signOutButtonElement.removeAttribute('hidden');
-  
-      // Hide sign-in button.
-      signInButtonElement.setAttribute('hidden', 'true');
-      loadTransactions();
+  if (user) {
+    // User is signed in!
+    // Get the signed-in user's name.
+    var userName = getUserName();
 
-    } else { // User is signed out!
-      // Hide user's profile and sign-out button.
-      displayNameDivElement.setAttribute('hidden', 'true');
-      signOutButtonElement.setAttribute('hidden', 'true');
-  
-      // Show sign-in button.
-      signInButtonElement.removeAttribute('hidden');
-    }
+    // Set name.
+    displayNameDivElement.textContent = userName;
+
+    // Show user's profile and sign-out button.
+    displayNameDivElement.removeAttribute('hidden');
+    signOutButtonElement.removeAttribute('hidden');
+
+    // Hide sign-in button.
+    signInButtonElement.setAttribute('hidden', 'true');
+    loadTransactions();
+  } else {
+    // User is signed out!
+    // Hide user's profile and sign-out button.
+    displayNameDivElement.setAttribute('hidden', 'true');
+    signOutButtonElement.setAttribute('hidden', 'true');
+    messageListElement.innerHTML = '';
+    balanceDisplayElement.innerHTML = '0.00';
+
+    // Show sign-in button.
+    signInButtonElement.removeAttribute('hidden');
+  }
 }
 
 // Displays a Message in the UI.
 function displayTransaction(type, amount) {
+  var container = document.createElement('div');
+  container.innerHTML = MESSAGE_TEMPLATE;
+  div = container.firstChild;
+  messageListElement.appendChild(div);
 
-    var container = document.createElement('div');
-    container.innerHTML = MESSAGE_TEMPLATE;
-    div = container.firstChild;
-    messageListElement.appendChild(div);
-
-    div.querySelector('.type').textContent = type;
-    div.querySelector('.amount').textContent = amount;    
+  div.querySelector('.type').textContent = type;
+  div.querySelector('.amount').textContent = amount;
 }
 
 function displayBalance(amount) {
-    balanceDisplayElement.textContent = amount;
+  balanceDisplayElement.textContent = amount;
 }
 
 // Triggered when the send new message form is submitted.
 function onFormSubmit(e) {
-    e.preventDefault();
-    // Check that the user entered a message and is signed in.
-    if (isUserSignedIn) {
-        recordNewTransaction(recordAmountElement.value, recordTypeElement.value).then(function() {
-            updateWalletbalance(recordAmountElement.value, recordTypeElement.value).then(function(){
-                alert("New transaction recorded")
-            })
+  e.preventDefault();
+  // Check that the user entered a message and is signed in.
+  if (isUserSignedIn) {
+    recordNewTransaction(
+      recordAmountElement.value,
+      recordTypeElement.value
+    ).then(function() {
+      updateWalletbalance(
+        recordAmountElement.value,
+        recordTypeElement.value
+      ).then(function() {
+        alert('New transaction recorded');
       });
-    }
+    });
+  }
 }
 
 // Template for messages.
 var MESSAGE_TEMPLATE =
-    '<div class="message-container">' +
-      '<div class="amount"></div>' +
-      '<div class="type"></div>' +
-    '</div>';
+  '<div class="record-container">' +
+  '<div>₹<span class="amount"></span></div>' +
+  '<div class="type"></div>' +
+  '</div>';
 
 var messageListElement = document.getElementById('records');
 var signInButtonElement = document.getElementById('sign-in');
 var signOutButtonElement = document.getElementById('sign-out');
 var displayNameDivElement = document.getElementById('user-name');
 var recordAmountElement = document.getElementById('amount');
-var recordTypeElement = document.getElementById("type");
-var addRecordFormElement = document.getElementById("add-record-form");
+var recordTypeElement = document.getElementById('type');
+var addRecordFormElement = document.getElementById('add-record-form');
 var balanceDisplayElement = document.getElementById('wallet-balance');
 
 signOutButtonElement.addEventListener('click', signOut);

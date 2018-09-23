@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+* {
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  font-size: 27px;
+  padding: 10px;
+}
+
+header {
+  background: #009AE1;
+  color: #ffffff;
+  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  max-width: 100%;
+}
+
+.user-container {
+  display: flex;
+  font-size: 20px;
+}
+
+#user-name {
+  padding: 15px;
+}
+
+header button {
+  border: none;
+  font-size: 15px;
+  background: #ffffff;
+  width: 180px;
+  cursor: pointer;
+}
+
+main {
+  height: 400px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  display: inline-block;
+  padding: 15px;
+  margin: 15px;
+  height: 100%;
+  width: calc(100% / 3 - 30px);
+}
+
+.title-small {
+  font-size: 21px;
+  position: absolute;
+}
+
+.balance {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 70px;
+  color: #009AE1;
+}
+
+#add-record-form {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  padding-top: 70px;
+}
+
+#add-record-form input {
+  padding: 10px;
+  border-style: none none solid none;
+  margin: 20px;
+}
+
+#add-record-form input:focus {
+  border-color: #009AE1;
+  outline: none;
+}
+
+#add-record-form button {
+  padding: 7px 30px;
+  margin: 20px;
+  border: none;
+  background: #009AE1;
+  color: #ffffff;
+  border-radius: 2px;
+}
+
+#records {
+  margin: 45px 10px 0;
+  height: calc(100% - 50px);
+  overflow: auto;
+}
+
+.record-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 10px;
+}
+
+@media only screen and (max-width: 900px) {
+  header {
+    padding: 0;
+  }
+
+  header botton, #sign-out, #sign-in {
+    padding: 5px 8px;
+    font-size: 10px;
+    min-width: auto;
+    width: auto;
+    height: 100%;
+    margin: 0;
+    border-radius: 2px;
+  }
+
+  .title, .user-container, #user-name {
+    font-size: 10px;
+    padding: 5px;
+    margin: 0;
+  }
+
+  .title {
+    padding: 9px 10px 0;
+    font-size: 12px;
+  }
+
+  .card {
+    width: calc(100% - 30px);
+  }
+}

@@ -110,7 +110,7 @@ function onFormSubmit(e) {
 
 // Template for messages.
 var MESSAGE_TEMPLATE =
-    '<div class="message-container">' +
+    '<div class="record-container">' +
       '<div class="amount"></div>' +
       '<div class="type"></div>' +
     '</div>';

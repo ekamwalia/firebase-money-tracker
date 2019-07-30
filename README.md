@@ -1,4 +1,4 @@
-# firebase-money-tracker
+# Firebase Money Tracker
 A finances management application developed using Firebase (For DSC Manipal's Dev Fest 2018)
 
 Topics covered in the session - 
